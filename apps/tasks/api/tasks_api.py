@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from apps.base.custom_pagination.custom_pagination import BasicPagination
-from apps.base.helpers import CustomException
+from apps.base.helpers.custom_exception import CustomException
 from apps.base.helpers.format_response import FormatResponse
 from apps.base.utils import formatErrors
 from apps.tasks.api.serializers.tasks_serializers import TasksSerializers, TasksGetSerializers
@@ -83,7 +83,6 @@ class TaskViewSet(viewsets.GenericViewSet):
 
             # Actualizamos el juego
             task_destroy_serializer.instance.status = False
-            # task_destroy_serializer.instance.user_update = user.id
             task_destroy_serializer.instance.save()
             return FormatResponse.successful(message="Tarea eliminada con exito.", data={})
         except Exception as e:
@@ -92,7 +91,7 @@ class TaskViewSet(viewsets.GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         try:
-            user_id = self.query_params.rquest.get('user_id', None)
+            user_id =  self.request.query_params.get('user_id', None)
 
             task = Task.objects.filter(status=True)
 

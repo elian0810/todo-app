@@ -1,3 +1,4 @@
+from apps.base.extensions.general_serializers import EagerLoadingMixin
 from rest_framework import serializers
 from apps.attributes.api.serializers.attribute_serializers import AttributeGetSerializers
 from apps.tasks.models import Task
@@ -40,7 +41,7 @@ class TasksSerializers(serializers.ModelSerializer):
     #        raise e
 
 #Hace referencia al serilizador de listado de tareas
-class TasksGetSerializers(serializers.ModelSerializer):
+class TasksGetSerializers(serializers.ModelSerializer,EagerLoadingMixin):
     status_task = AttributeGetSerializers()
     class Meta:
         model = Task

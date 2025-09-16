@@ -1,3 +1,5 @@
+
+
 class CustomException():
 
     def throw(message):
@@ -7,3 +9,4 @@ class CustomException():
         * @return  $custom_message , hace referencia a el mensaje personalalizado que devolvera el api o endpoint.
         """
         raise Exception(message)
+
