@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import environ
+import os
 from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_REAL_PATH = os.path.normpath(os.getcwd())
 
 # from sshtunnel import SSHTunnelForwarder
 
@@ -55,6 +57,8 @@ INSTALLED_APPS = [
     'apps.attributes',
     'apps.users',
     'apps.tasks',
+    'apps.base',
+
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -72,7 +76,7 @@ REST_FRAMEWORK = {
        'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'apps.base.custom_pagination.custom_pagination.CustomPagination',
     'PAGE_SIZE': 100
 }
 

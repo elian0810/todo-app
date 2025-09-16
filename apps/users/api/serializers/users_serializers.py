@@ -1,20 +1,26 @@
 from apps.base.extensions.general_serializers import EagerLoadingMixin
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from apps.users.models import User
 
 class PersonWithUserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True,
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="Este correo ya está registrado" 
+            )
+        ],
+        error_messages={
+            "required": "El correo electrónico es obligatorio",
+            "invalid": "El correo electrónico no es válido",
+        }
+    )
     class Meta:
         model = User
         fields = ['email', 'password', 'name', 'last_name', 'image']  # solo los necesarios
         extra_kwargs = {
-            'email': {
-                'required': True,
-                'error_messages': {
-                    'required': 'El correo electrónico es obligatorio',
-                    'invalid': 'El correo electrónico no es válido',
-                    'unique': 'Este correo ya está registrado'
-                }
-            },
             'password': {
                 'required': True,
                 'write_only': True,
@@ -59,6 +65,7 @@ class PersonWithUserSerializer(serializers.ModelSerializer):
         try:
             # Actualizamos los datos del usuario directamente
             instance.email = validated_data.get('email', instance.email)
+            instance.username = validated_data.get('email', instance.username)
             instance.name = validated_data.get('name', instance.name)
             instance.last_name = validated_data.get('last_name', instance.last_name)
    

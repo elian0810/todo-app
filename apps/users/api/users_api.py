@@ -1,4 +1,3 @@
-from apps.users.api.serializers.users_serializers import PersonWithUserSerializer, UserListUniqueSerializer
 from rest_framework import viewsets
 from django.db.models import Q,  F, Value, CharField
 from django.db.models.functions import Concat
@@ -8,6 +7,7 @@ from apps.base.custom_pagination.custom_pagination import BasicPagination
 from apps.base.helpers.custom_exception import CustomException
 from apps.base.helpers.format_response import FormatResponse
 from apps.base.utils import formatErrors, setActorRequest
+from apps.users.api.serializers.users_serializers import PersonWithUserSerializer, UserListUniqueSerializer
 from apps.users.models import User
 
 class UsersViewSet(viewsets.GenericViewSet):
@@ -34,10 +34,9 @@ class UsersViewSet(viewsets.GenericViewSet):
         """
         try:
             with transaction.atomic():
-                data = setActorRequest(request.data, self.request.user)
                 # ===================================================
                 # Registramos en el modelo usuario y persona
-                serializer = PersonWithUserSerializer(data=data)
+                serializer = PersonWithUserSerializer(data=request.data)
                 if serializer.is_valid():
                     serializer.save()
                 else:
@@ -54,22 +53,22 @@ class UsersViewSet(viewsets.GenericViewSet):
         Funcion que actuliza el objeto recibiendo
         el pk de ese mismo por medio de la ruta
         """
-       
         try:
             with transaction.atomic():
-                #captuarar el suario que realizo esa accion
-                #obentemos nuestra instancia
-                instance = self.get_object()
+                instance = User.objects.filter(pk=pk, status=True).first()
+                if not instance:
+                    CustomException.throw("El usuario con el id enviado no existe en el sistema.")
 
-                #obtemenos la infromacion de nuetro serilizador y la validamos
                 serializer = PersonWithUserSerializer(instance, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
                 else:
                     CustomException.throw(formatErrors(serializer.errors))
+
             return FormatResponse.successful(message="Usuario actualizado con éxito", data=serializer.data)
         except Exception as e:
-            return FormatResponse.failed(e)  
+            return FormatResponse.failed(e)
+
    
    
     def destroy(self, request, pk=None):
@@ -113,7 +112,6 @@ class UsersViewSet(viewsets.GenericViewSet):
             users = User.objects.filter(status=True)
    
             # Obtenemos a el usuario autenticado
-            user = self.request.user
             users = users.order_by('-id').all()
 
             #=============================================================
