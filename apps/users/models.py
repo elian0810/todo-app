@@ -35,8 +35,6 @@ class User(AbstractBaseUser):
     parent_user = models.PositiveBigIntegerField(null=True)
     password_generated_by_api = models.IntegerField(blank=True, null=False, help_text="Hace referencia al cambio de contraseña o otros", default=0)
     status = models.BooleanField(default=True)
-    creation_user = models.PositiveBigIntegerField(null=True)
-    user_update = models.PositiveBigIntegerField(null=True)
     creation_date = models.DateTimeField(auto_now_add=True,null=True)
     last_update = models.DateTimeField(auto_now=True,null=True)
 

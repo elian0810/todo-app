@@ -14,6 +14,6 @@ class Task(models.Model):
     update_date = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
-        db_table = 'Tasks'
+        db_table = 'tasks'
         default_permissions=()
 

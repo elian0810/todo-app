@@ -11,7 +11,7 @@ class Parameter(models.Model):
     update_date = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
-        db_table = 'Parameters'
+        db_table = 'parameters'
         default_permissions=()
 
 
@@ -25,7 +25,7 @@ class Attribute(models.Model):
     update_date = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
-        db_table = 'Attributes'
+        db_table = 'attributes'
         default_permissions=()
 
 
