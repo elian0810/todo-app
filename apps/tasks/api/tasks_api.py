@@ -76,6 +76,10 @@ class TaskViewSet(viewsets.GenericViewSet):
             task = Task.objects.filter(pk=pk).first()
             if not task:
                 CustomException.throw("El id enviado no existe en el sistema.")
+                
+            if task.user != request.user:
+                CustomException.throw("No tienes permisos para eliminar esta tarea.")
+
             # Obtenemos el usrio
             task_destroy = self.get_object()
             task_destroy_serializer = self.serializer_class(task_destroy)
