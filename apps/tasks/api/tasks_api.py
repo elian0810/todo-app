@@ -21,8 +21,7 @@ class TaskViewSet(viewsets.GenericViewSet):
     # Modificamos el Queysert
     queryset = Task.objects.filter(status= True)
     # Validamos si vien el token 
-    permission_classes = (IsAuthenticated)
-
+    permission_classes = (IsAuthenticated,)
 
 
     def create(self, request, *args, **kwargs):
@@ -32,7 +31,7 @@ class TaskViewSet(viewsets.GenericViewSet):
             """
             serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
             else:
                 raise Exception(formatErrors(serializer.errors))
                 
@@ -56,9 +55,9 @@ class TaskViewSet(viewsets.GenericViewSet):
             instance = self.get_object()
 
             #obtemenos la infromacion de nuetro serilizador y la validamos
-            serializer = self.get_serializer_class()(instance, data=request.data, context = partial )
+            serializer = self.get_serializer_class()(instance, data=request.data, context={'request': request}, partial=True )
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
             else:
                 CustomException.throw(formatErrors(serializer.errors))
             
@@ -91,7 +90,7 @@ class TaskViewSet(viewsets.GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         try:
-            user_id =  self.request.query_params.get('user_id', None)
+            user_id = request.user.id if request.user.id else None
 
             task = Task.objects.filter(status=True)
 

@@ -8,6 +8,7 @@ class TasksSerializers(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('title', 'description', 'status_task')
+        read_only_fields = ['user']
         extra_kwargs = {
             'title': {
                 "required": True,
@@ -33,12 +34,21 @@ class TasksSerializers(serializers.ModelSerializer):
         }
 
 
-    #def validate(self, data):
-    #    try:
+    def update(self, instance, validated_data):
+        try:
+            # Validación: solo el dueño puede actualizar
+            request = self.context.get('request') 
+            if request and instance.user != request.user:
+                raise Exception("No tienes permisos para actualizar esta tarea.")
 
-    #        return data
-    #    except Exception as e:
-    #        raise e
+            # Actualizamos los campos
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
+            instance.save()
+            return instance
+        except Exception as e:
+            raise e
+
 
 #Hace referencia al serilizador de listado de tareas
 class TasksGetSerializers(serializers.ModelSerializer,EagerLoadingMixin):
