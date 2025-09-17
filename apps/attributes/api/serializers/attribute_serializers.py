@@ -9,7 +9,7 @@ class ParameterGetSerializers(serializers.ModelSerializer):
 
 
 class AttributeGetSerializers(serializers.ModelSerializer):
-    paramter = ParameterGetSerializers()
+    parameter = ParameterGetSerializers()
     class Meta:
         model = Attribute
-        fields = ('id', 'name', 'paramter')
+        fields = ('id', 'name', 'parameter')
