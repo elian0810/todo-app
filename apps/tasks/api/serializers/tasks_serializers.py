@@ -1,4 +1,5 @@
 from apps.base.extensions.general_serializers import EagerLoadingMixin
+from apps.users.api.serializers.users_serializers import UserListUniqueSerializer
 from rest_framework import serializers
 from apps.attributes.api.serializers.attribute_serializers import AttributeGetSerializers
 from apps.tasks.models import Task
@@ -53,9 +54,10 @@ class TasksSerializers(serializers.ModelSerializer):
 #Hace referencia al serilizador de listado de tareas
 class TasksGetSerializers(serializers.ModelSerializer,EagerLoadingMixin):
     status_task = AttributeGetSerializers()
+    user = UserListUniqueSerializer()
     class Meta:
         model = Task
-        fields = ('id','title', 'description', 'user','status_task')
+        fields = ('id','title', 'description','create_date', 'user','status_task')
 
 
 
