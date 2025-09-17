@@ -15,19 +15,25 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+env = environ.Env()
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-7a3#2%r@#3pi##q66@(z-oun*n9_qke#!#8!gzrlbg2v^ujcjz'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+
 BASE_REAL_PATH = os.path.normpath(os.getcwd())
 
-# from sshtunnel import SSHTunnelForwarder
-
-# ============ OBTENIENDO EL ENTORNO DE DESARROLLO =======================
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False),
-)
-environ.Env.read_env()
-
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -120,7 +126,7 @@ DATABASES = {
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
+        'HOST':  'db',  # <--- importante
         'PORT': env('DB_PORT'),
     }
 }

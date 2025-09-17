@@ -80,11 +80,8 @@ class TaskViewSet(viewsets.GenericViewSet):
             if task.user != request.user:
                 CustomException.throw("No tienes permisos para eliminar esta tarea.")
 
-            # Obtenemos el usrio
             task_destroy = self.get_object()
             task_destroy_serializer = self.serializer_class(task_destroy)
-
-            # Actualizamos el juego
             task_destroy_serializer.instance.status = False
             task_destroy_serializer.instance.save()
             return FormatResponse.successful(message="Tarea eliminada con exito.", data={})

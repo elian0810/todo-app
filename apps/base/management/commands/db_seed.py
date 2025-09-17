@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
-
 from apps.attributes.seeders.attributes_seeder import AttributeSeeder
 from apps.attributes.seeders.parameters_seeder import ParameterSeeder
+from apps.users.seeders.users_seeder import UsersSeeder
 
 class Command(BaseCommand):
     """Exec command $ python manage.py db_seed"""
@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 #seeder de parametros y atributos
                 ParameterSeeder()
                 AttributeSeeder()
-
+                UsersSeeder()
             self.stdout.write("Executed seeder ", ending='\n')
        except KeyError:
         print("El seeder especificado no existe")
