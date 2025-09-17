@@ -43,8 +43,8 @@ class User(AbstractBaseUser):
         db_table = "users"
         default_permissions=()
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['name','last_name']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username','name','last_name']
 
    
     def natural_key(self):

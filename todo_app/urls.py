@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from apps.auth.api.auth_api import Login
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/',Login.as_view(), name = 'Login'),# login  
     path('tasks/',include('apps.tasks.api.routers')),#ruta de tareas
     path('users/', include('apps.users.api.routers')),#ruta de usuarios
-
+    path('attributes/', include('apps.attributes.api.routers')),#ruta de usuarios
 ]

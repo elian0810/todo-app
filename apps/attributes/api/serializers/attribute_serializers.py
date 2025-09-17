@@ -1,3 +1,4 @@
+from apps.base.extensions.general_serializers import EagerLoadingMixin
 from rest_framework import serializers
 from apps.attributes.models import Parameter, Attribute
 
@@ -8,7 +9,7 @@ class ParameterGetSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AttributeGetSerializers(serializers.ModelSerializer):
+class AttributeGetSerializers(serializers.ModelSerializer,EagerLoadingMixin):
     parameter = ParameterGetSerializers()
     class Meta:
         model = Attribute

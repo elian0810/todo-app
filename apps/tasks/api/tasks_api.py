@@ -21,7 +21,7 @@ class TaskViewSet(viewsets.GenericViewSet):
     # Modificamos el Queysert
     queryset = Task.objects.filter(status= True)
     # Validamos si vien el token 
-    # permission_classes = (IsAuthenticated)
+    permission_classes = (IsAuthenticated)
 
 
 

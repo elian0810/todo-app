@@ -10,8 +10,7 @@ class AttributeSeeder:
           CDB.restart_sequence([Attribute])
           #======================================================================================================
           #====================== Estados =======================================================
-          Attribute.objects.create(name='Activo', parameter_id=ParametersEnum.STATUS_TASK.value)# nit de la empresa 
-          Attribute.objects.create(name='Inactivo', parameter_id=ParametersEnum.STATUS_TASK.value)# nit de la empresa 
-          Attribute.objects.create(name='Cancelado', parameter_id=ParametersEnum.STATUS_TASK.value)# nit de la empresa 
+          Attribute.objects.create(name='Pendiente', parameter_id=ParametersEnum.STATUS_TASK.value)# nit de la empresa 
+          Attribute.objects.create(name='Completado', parameter_id=ParametersEnum.STATUS_TASK.value)# nit de la empresa 
 
           print("AttributeSeeder Excueted!")

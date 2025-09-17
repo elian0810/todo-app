@@ -22,7 +22,7 @@ class UsersViewSet(viewsets.GenericViewSet):
     #imponemos caracteriticas sobre nuestros queryset
     queryset = User.objects.filter(status=True)
     #Verificamos el sitemea de aut. por toekn bearer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
    
    
     def create(self, request, *args, **kwargs):
